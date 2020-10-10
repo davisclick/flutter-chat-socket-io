@@ -80,12 +80,12 @@ class _UserPageState extends State<UserPage> {
       );
   }
 
-  _loadUsers() async {
+   _loadUsers()  {
     
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
+    //await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
+     _refreshController.refreshCompleted();
   }
   
 }
