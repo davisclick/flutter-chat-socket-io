@@ -13,6 +13,7 @@ class _ChatPageState extends State<ChatPage> {
 
   final _textController = new TextEditingController();
   final _focusNode = new FocusNode();
+  bool _isWriting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,9 @@ class _ChatPageState extends State<ChatPage> {
                  controller: _textController,
                  onSubmitted:_handleSummit, 
                  onChanged: ( String text ){
-
+                  setState(() {
+                    _isWriting = text.trim().length > 0 ? true : false;
+                  });
                  },
                  decoration: InputDecoration.collapsed(hintText: 'Send Message'),
                  focusNode: _focusNode,
@@ -83,12 +86,18 @@ class _ChatPageState extends State<ChatPage> {
               child: Platform.isIOS ? 
                     CupertinoButton(
                       child: Text('Send'), 
-                      onPressed: (){}):
+                      onPressed: _isWriting ? () => _handleSummit( _textController.text.trim() ) : null,):
+
                       Container(
                         margin: EdgeInsets.symmetric( horizontal: 4.0 ),
-                        child: IconButton(
-                          icon: Icon( Icons.send, color: Colors.blue[400], ) ,
-                          onPressed: () {},
+                        child: IconTheme(
+                            data: IconThemeData( color: Colors.blue[400] ),
+                            child: IconButton(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            icon: Icon( Icons.send ) ,
+                            onPressed: _isWriting ? () => _handleSummit( _textController.text.trim() ) : null,
+                          ),
                         ),
 
                       )
@@ -105,5 +114,9 @@ class _ChatPageState extends State<ChatPage> {
      print(text);
      _textController.clear();
      _focusNode.requestFocus();
+
+     setState(() {
+        _isWriting = false;
+      });
    }
 }
