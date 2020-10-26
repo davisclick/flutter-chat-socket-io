@@ -1,6 +1,9 @@
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:chat_app/global/environment.dart';
 
 class AuthService with ChangeNotifier{
 
@@ -11,7 +14,14 @@ class AuthService with ChangeNotifier{
       'password': password
     };
 
-    //final resp = http.post(url)
+    final resp = await http.post('${ Environment.apiURL }/login',
+      body: jsonEncode(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    );
+
+    print( resp.body );
   }
 
 }

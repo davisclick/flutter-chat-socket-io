@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/widgets/custom_imput.dart';
 import 'package:chat_app/widgets/blue_button.dart';
 import 'package:chat_app/widgets/labels.dart';
 import 'package:chat_app/widgets/logo.dart';
+
 
 class LoginPage extends StatelessWidget {
 
@@ -76,6 +79,9 @@ class __FormState extends State<_Form> {
           BlueButton(
             text: 'Login',
             onPressed: () {
+              final authService = Provider.of<AuthService>(context, listen: false);
+
+              authService.login(emailController.text, passwordController.text);
 
             },
           ),
