@@ -15,10 +15,11 @@ class AuthService with ChangeNotifier{
   set authenticating( bool value ){
     this._authenticating = value;
     notifyListeners();
-
   }
 
   Future login( String email, String password ) async {
+
+    this.authenticating = true;
 
     print(Environment.apiURL);
 
@@ -39,6 +40,7 @@ class AuthService with ChangeNotifier{
       this.user = loginResponse.user;
     }
     
+     this.authenticating = false;
   }
 
 }
