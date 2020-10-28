@@ -90,7 +90,7 @@ class __FormState extends State<_Form> {
               final loginOk = await authService.login(emailController.text.trim(), passwordController.text.trim());
 
               if( loginOk ){
-
+                Navigator.pushReplacementNamed(context, 'user');
               }else{
                 showAlert(context, 'Incorrect login', 'Review your credentials');
               }
