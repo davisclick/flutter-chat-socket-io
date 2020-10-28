@@ -1,3 +1,4 @@
+import 'package:chat_app/helpers/alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -82,11 +83,17 @@ class __FormState extends State<_Form> {
           
           BlueButton(
             text: 'Login',
-            onPressed: authService.authenticating ? null : () {
+            onPressed: authService.authenticating ? null : () async {
 
               FocusScope.of(context).unfocus();
-              
-              authService.login(emailController.text.trim(), passwordController.text.trim());
+
+              final loginOk = await authService.login(emailController.text.trim(), passwordController.text.trim());
+
+              if( loginOk ){
+
+              }else{
+                showAlert(context, 'Incorrect login', 'Review your credentials');
+              }
             },
           ),
 
