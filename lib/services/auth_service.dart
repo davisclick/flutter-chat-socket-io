@@ -64,7 +64,7 @@ class AuthService with ChangeNotifier{
     
   }
 
-  Future <bool> register( String name, String email, String  password ) async {
+  Future register( String name, String email, String  password ) async {
 
     this.authenticating = true;
 
@@ -92,7 +92,8 @@ class AuthService with ChangeNotifier{
 
       return true;
     }else{
-      return false;
+      final respBody = jsonDecode(resp.body);
+      return respBody['msg'];
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:chat_app/helpers/alerts.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -71,12 +72,14 @@ class __FormState extends State<_Form> {
             placeHolder: 'Name',
             keyboardtype: TextInputType.text,
             textController: nameController,
+             isPassword: false,
           ),
           CustomInput(
             icon: Icons.mail_outline,
             placeHolder: 'Email',
             keyboardtype: TextInputType.emailAddress,
             textController: emailController,
+             isPassword: false,
           ),
           CustomInput(
             icon: Icons.lock_outline,
@@ -88,8 +91,14 @@ class __FormState extends State<_Form> {
           BlueButton(
             text: 'Registry',
             onPressed: authService.authenticating ? null : () async {
-              
-              final registryOk = authService.register(nameController.text.trim(), emailController.text.trim(), passwordController.text.trim());
+
+              final registrySuccessful = await authService.register(nameController.text.trim(), emailController.text.trim(), passwordController.text.trim());
+
+              if(registrySuccessful == true){
+                Navigator.pushReplacementNamed(context, 'user');
+              }else{
+                showAlert(context, 'Incorrect registry', registrySuccessful);
+              }
             },
           ),
 
