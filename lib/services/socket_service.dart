@@ -19,11 +19,7 @@ class SocketService with ChangeNotifier{
   IO.Socket get socket => _socket; 
   Function get emit => this._socket.emit;
   
-  SocketService(){
-    _initConfig();
-  }
-
-  void _initConfig(){
+  void connet(){
 
     // Dart client
     this._socket  = IO.io( Environment.socketURL,{ //Change for your IP or localhost
@@ -43,5 +39,9 @@ class SocketService with ChangeNotifier{
     });
 
   }
+
+ void disconnect(){
+   this._socket.disconnect();
+ }
 
 }
