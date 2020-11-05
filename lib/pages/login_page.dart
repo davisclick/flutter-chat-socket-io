@@ -1,18 +1,21 @@
-import 'package:chat_app/helpers/alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/services/socket_service.dart';
 import 'package:chat_app/widgets/custom_imput.dart';
 import 'package:chat_app/widgets/blue_button.dart';
 import 'package:chat_app/widgets/labels.dart';
 import 'package:chat_app/widgets/logo.dart';
+import 'package:chat_app/helpers/alerts.dart';
+
 
 
 class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Color(0xffF2F2F2),
       body: SafeArea(
@@ -60,6 +63,7 @@ class __FormState extends State<_Form> {
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context, listen: true);
+    final socketService = Provider.of<SocketService>(context, listen: true);
 
     return Container(
       margin: EdgeInsets.only( top: 40 ),
@@ -90,6 +94,7 @@ class __FormState extends State<_Form> {
               final loginOk = await authService.login(emailController.text.trim(), passwordController.text.trim());
 
               if( loginOk ){
+                socketService.connet();
                 Navigator.pushReplacementNamed(context, 'user');
               }else{
                 showAlert(context, 'Incorrect login', 'Review your credentials');
