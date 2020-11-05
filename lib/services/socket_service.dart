@@ -1,3 +1,4 @@
+import 'package:chat_app/global/environment.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -25,9 +26,10 @@ class SocketService with ChangeNotifier{
   void _initConfig(){
 
     // Dart client
-    this._socket  = IO.io('https://davis-flutter-socket-server.herokuapp.com/',{ //Change for your IP or localhost
+    this._socket  = IO.io( Environment.socketURL,{ //Change for your IP or localhost
       'transports' : ['websocket'],
       'autoConnect': true,
+      'forceNew': true
     });
 
     this._socket.on('connect', (_) {
