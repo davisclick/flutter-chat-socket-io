@@ -1,3 +1,4 @@
+import 'package:chat_app/services/users_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,13 +16,16 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
 
+  final userService = UsersService();
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
-  final users = [
-    User( uid: '1', name: 'Davis', email: 'test1@gmail.com', online: true),
-    User( uid: '2', name: 'Davis', email: 'test2@gmail.com', online: false),
-    User( uid: '3', name: 'Davis', email: 'test3@gmail.com', online: true),
-  ];
+  List<User> users = [];
+
+  @override
+  void initState() {
+    this._loadUsers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +61,7 @@ class _UserPageState extends State<UserPage> {
       body: SmartRefresher(
         controller: _refreshController,
         enablePullDown: true,
-        onRefresh: _loadUsers(),
+        //onRefresh: _loadUsers(),
         header: WaterDropHeader(
           complete: Icon( Icons.check, color: Colors.blue[400], ),
           waterDropColor: Colors.blue[400],
@@ -94,8 +98,11 @@ class _UserPageState extends State<UserPage> {
       );
   }
 
-   _loadUsers()  {
-    
+   _loadUsers() async {
+
+    this.users = await userService.getUsers();
+
+    setState(() {});
     // monitor network fetch
     //await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
