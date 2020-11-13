@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'package:chat_app/services/chat_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:chat_app/widgets/chat_message.dart';
 import 'package:provider/provider.dart';
 
+import 'package:chat_app/services/chat_service.dart';
+import 'package:chat_app/services/socket_service.dart';
+import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/widgets/chat_message.dart';
 
 class ChatPage extends StatefulWidget {
 
@@ -17,14 +18,26 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   final _textController = new TextEditingController();
   final _focusNode = new FocusNode();
+
+  ChatService chatService;
+  SocketService socketService;
+  AuthService authService;
+
   bool _isWriting = false;
 
   List<ChatMessage> _messages = [];
 
   @override
+  void initState() {
+    super.initState();
+    this.chatService = Provider.of<ChatService>(context, listen: false);
+    this.socketService = Provider.of<SocketService>(context, listen: false);
+    this.authService = Provider.of<AuthService>(context, listen: false);
+  }
+
+  @override
   Widget build(BuildContext context) {
 
-    final chatService = Provider.of<ChatService>(context);
     final user = chatService.userMessage;
 
     return Scaffold(
@@ -125,7 +138,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
      if( text.length == 0 ) return;
      
-     print(text);
      _textController.clear();
      _focusNode.requestFocus();
 
@@ -140,6 +152,12 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
      setState(() {
         _isWriting = false;
+    });
+
+    this.socketService.emit('personal-message',{
+      'from' : this.authService.user.uid,
+      'to'   : this.chatService.userMessage.uid,
+      'message': text
     });
    }
 
