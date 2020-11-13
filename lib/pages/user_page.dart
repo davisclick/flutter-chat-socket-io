@@ -1,3 +1,4 @@
+import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/services/users_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -95,6 +96,11 @@ class _UserPageState extends State<UserPage> {
             color: user.online ? Colors.green[300] : Colors.red
           )
         ),
+        onTap: (){
+          final chatService = Provider.of<ChatService>(context, listen: false);
+          chatService.userMessage = user;
+          Navigator.pushNamed(context, 'chat');
+        },
       );
   }
 
