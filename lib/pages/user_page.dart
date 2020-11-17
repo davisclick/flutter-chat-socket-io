@@ -98,7 +98,7 @@ class _UserPageState extends State<UserPage> {
         ),
         onTap: (){
           final chatService = Provider.of<ChatService>(context, listen: false);
-          chatService.userMessage = user;
+          chatService.userTo = user;
           Navigator.pushNamed(context, 'chat');
         },
       );

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:chat_app/models/messages_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,23 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     this.authService = Provider.of<AuthService>(context, listen: false);
 
     this.socketService.socket.on('personal-message', (payload) => _listenMessage);
+
+    _loadHistory(this.chatService.userTo.uid);
+  }
+
+  void _loadHistory( String userId ) async {
+
+    List<Message> chat = await this.chatService.getChat(userId);
+    
+    final history = chat.map((m) => new ChatMessage(
+      text: m.message,
+      uid: m.from,
+      animationController: new AnimationController(vsync: this, duration: Duration( milliseconds: 0))..forward(),
+    ));
+
+    setState(() {
+      _messages.insertAll(0, history);
+    });
   }
 
   void _listenMessage ( dynamic payload ){
@@ -55,7 +73,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
 
-    final user = chatService.userMessage;
+    final user = chatService.userTo;
 
     return Scaffold(
       appBar: AppBar(
@@ -159,7 +177,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
      _focusNode.requestFocus();
 
      final newMessage = new ChatMessage(
-       uid: '123',
+       uid: authService.user.uid,
        text: text,
        animationController: AnimationController(vsync: this, duration: Duration( milliseconds: 400 )),
      );
@@ -173,7 +191,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
     this.socketService.socket.emit('personal-message',{
       'from' : this.authService.user.uid,
-      'to'   : this.chatService.userMessage.uid,
+      'to'   : this.chatService.userTo.uid,
       'message': text
     });
    }
