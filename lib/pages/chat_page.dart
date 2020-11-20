@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:chat_app/models/messages_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:chat_app/models/messages_response.dart';
 import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/services/socket_service.dart';
 import 'package:chat_app/services/auth_service.dart';
@@ -56,7 +56,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   }
 
   void _listenMessage ( dynamic payload ){
-    print(payload);
+    
     ChatMessage message = new ChatMessage(
       text: payload['message'],
       uid: payload['from'],
