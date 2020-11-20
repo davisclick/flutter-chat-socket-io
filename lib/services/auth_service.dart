@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:chat_app/models/login_response.dart';
 import 'package:chat_app/models/user.dart';
-import 'package:http/http.dart' as http;
 import 'package:chat_app/global/environment.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class AuthService with ChangeNotifier{
 
@@ -107,8 +108,6 @@ class AuthService with ChangeNotifier{
         'x-token': token
       }
     );
-
-    print(resp);
 
     if( resp.statusCode == 200 ){
       final loginResponse = loginResponseFromJson( resp.body );

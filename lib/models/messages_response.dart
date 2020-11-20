@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-MessagesResponse mesagesResponseFromJson(String str) => MessagesResponse.fromJson(json.decode(str));
+MessagesResponse messagesResponseFromJson(String str) => MessagesResponse.fromJson(json.decode(str));
 
-String mesagesResponseToJson(MessagesResponse data) => json.encode(data.toJson());
+String messagesResponseToJson(MessagesResponse data) => json.encode(data.toJson());
 
 class MessagesResponse {
     MessagesResponse({

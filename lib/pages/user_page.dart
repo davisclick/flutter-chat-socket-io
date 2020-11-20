@@ -1,8 +1,8 @@
-import 'package:chat_app/services/chat_service.dart';
-import 'package:chat_app/services/users_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:chat_app/services/chat_service.dart';
+import 'package:chat_app/services/users_service.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/services/socket_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -32,7 +32,7 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context);
-    final socketService = Provider.of<SocketService>(context, listen: true);
+    final socketService = Provider.of<SocketService>(context);
 
     final user = authService.user;
 
@@ -62,7 +62,7 @@ class _UserPageState extends State<UserPage> {
       body: SmartRefresher(
         controller: _refreshController,
         enablePullDown: true,
-        //onRefresh: _loadUsers(),
+        onRefresh: _loadUsers(),
         header: WaterDropHeader(
           complete: Icon( Icons.check, color: Colors.blue[400], ),
           waterDropColor: Colors.blue[400],
@@ -109,7 +109,7 @@ class _UserPageState extends State<UserPage> {
     this.users = await userService.getUsers();
 
     setState(() {});
-    // monitor network fetch
+    
     //await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
      _refreshController.refreshCompleted();

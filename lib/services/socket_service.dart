@@ -1,7 +1,8 @@
-import 'package:chat_app/global/environment.dart';
-import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import 'package:chat_app/global/environment.dart';
+import 'package:chat_app/services/auth_service.dart';
 
 enum ServerStatus{
   Online,
