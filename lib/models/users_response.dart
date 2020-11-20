@@ -14,7 +14,6 @@ class UsersResponse {
 
     String ok;
     List<User> users;
-    int from;
 
     factory UsersResponse.fromJson(Map<String, dynamic> json) => UsersResponse(
         ok: json["ok"],

@@ -15,12 +15,12 @@ class MessagesResponse {
 
     factory MessagesResponse.fromJson(Map<String, dynamic> json) => MessagesResponse(
         ok: json["ok"],
-        messages: List<Message>.from(json["mensajes"].map((x) => Message.fromJson(x))),
+        messages: List<Message>.from(json["messages"].map((x) => Message.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "ok": ok,
-        "mensajes": List<dynamic>.from(messages.map((x) => x.toJson())),
+        "messages": List<dynamic>.from(messages.map((x) => x.toJson())),
     };
 }
 
@@ -40,17 +40,17 @@ class Message {
     DateTime updatedAt;
 
     factory Message.fromJson(Map<String, dynamic> json) => Message(
-        from: json["de"],
-        to: json["para"],
-        message: json["Message"],
+        from: json["from"],
+        to: json["to"],
+        message: json["message"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "de": from,
-        "para": to,
-        "Message": message,
+        "from": from,
+        "to": to,
+        "message": message,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
     };
